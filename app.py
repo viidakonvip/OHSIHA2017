@@ -34,11 +34,11 @@ mail.init_app(app)
 pageLimit = 5
 
 class ContactForm(FlaskForm):
-  name = TextField("Nimi",  [validators.Required("Ole hyvä ja täytä nimesi")])
-  email = TextField("Email",  [validators.Required("Ole hyvä ja täytä emailisi"), validators.Email("Email pitää olla muotoa keke@mail.com")])
-  subject = TextField("Aihe",  [validators.Required("Ole hyvä ja kirjoita aiheesi")])
-  message = TextAreaField("Viesti",  [validators.Required("Ole hyvä ja kirjoita viesti")])
-  submit = SubmitField("Lähetä")
+  name = TextField("Nimi",  [validators.Required("Ole hyva ja tayta nimesi")])
+  email = TextField("Email",  [validators.Required("Ole hyva ja tayta emailisi"), validators.Email("Email pitaa olla muotoa keke@mail.com")])
+  subject = TextField("Aihe",  [validators.Required("Ole hyva ja kirjoita aiheesi")])
+  message = TextAreaField("Viesti",  [validators.Required("Ole hyva ja kirjoita viesti")])
+  submit = SubmitField("Laheta")
   
 
 @app.route("/")
@@ -87,7 +87,7 @@ def userHome():
 	if session.get('user'):
 		return render_template('userHome.html')
 	else:
-		return render_template('error.html',error = "Sisäänkirjautuminen vaadittu!")
+		return render_template('error.html',error = "Sisaankirjautuminen vaadittu!")
 
 @app.route('/logout')
 def logout():
@@ -250,12 +250,12 @@ def contacts():
 	
 	if request.method == 'POST':
 		if form.validate() == False:
-			flash('Kaikki kentät pitää täyttää')
+			flash('Kaikki kentat pitaa tayttaa')
 			return render_template('contacts.html', form=form)
 		else:
 			msg = Message(form.subject.data, sender='contact@localhost.com', recipients=['viidakonvip@gmail.com'])
 			msg.body = """
-			Lähettäjän nimi: %s, Sähköposti: %s
+			Lahettajan nimi: %s, Sahkoposti: %s
 			
 			Viesti:
 			
@@ -269,7 +269,7 @@ def contacts():
 		return render_template('contacts.html', form=form)
 
 		
-#ei sisäänkirjautuneen contact
+#ei sisaankirjautuneen contact
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
 	session.get('user')	
@@ -277,12 +277,12 @@ def contact():
 	
 	if request.method == 'POST':
 		if form.validate() == False:
-			flash('Kaikki kentät pitää täyttää')
+			flash('Kaikki kentat pitaa tayttaa')
 			return render_template('contact.html', form=form)
 		else:
 			msg = Message(form.subject.data, sender='contact@localhost.com', recipients=['viidakonvip@gmail.com'])
 			msg.body = """
-			Lähettäjän nimi: %s, Sähköposti: %s
+			Lahettajan nimi: %s, Sahkoposti: %s
 			
 			Viesti:
 			
@@ -295,7 +295,7 @@ def contact():
 	elif request.method == 'GET':	
 		return render_template('contact.html', form=form)
 		
-#mitä wishiä ollaan editoimassa
+#mita wishia ollaan editoimassa
 @app.route('/getWishById',methods=['POST'])
 def getWishById():
     try:
