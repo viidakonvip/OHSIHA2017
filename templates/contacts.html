@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Python Flask Bucket List App</title>
+ 
+    
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+	<script src="../static/js/jquery-1.11.2.js"></script>
+	<script src="../static/js/signUp.js"></script>
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+			<li role="presentation"><a href="/showAddWish">Lisää tavoite</a></li>
+            <li role="presentation" ><a href="/logout">Kirjaudu ulos</a></li>
+			<li role="presentation" class="active" ><a href="/contacts">Ota yhteyttä</a></li></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Python Flask App</h3>
+      </div>
+ 
+	  
+{% if success %}
+  <p>Kiitti viestistä! Siihen ei tulla vastaamaan ikinä.</p>
+  
+  {% else %}
+  
+    {% for message in form.name.errors %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+ 
+    {% for message in form.email.errors %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+ 
+    {% for message in form.subject.errors %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+ 
+    {% for message in form.message.errors %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+  
+    <form action="{{ url_for('contacts') }}" method=post>
+      {{ form.hidden_tag() }}
+ 
+
+      {{ form.name(placeholder="Nimi") }}
+ 
+
+      {{ form.email(placeholder="Sähköposti") }}
+ 
+
+      {{ form.subject(placeholder="Aihe") }}
+ 
+
+      {{ form.message(placeholder="Viesti") }}
+ 
+      {{ form.submit }}
+    </form>
+{% endif %}
+       
+ 
+      <footer class="footer">
+        <p>&copy; viidakonVIP 2017</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>
