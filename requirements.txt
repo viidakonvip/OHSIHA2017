@@ -1,0 +1,14 @@
+click==6.7
+Flask==0.12
+Flask-MySQL==1.4.0
+Flask-SQLAlchemy==2.1
+Flask-WTF==0.14.2
+itsdangerous==0.24
+Jinja2==2.9.5
+MarkupSafe==0.23
+passlib==1.7.1
+PyMySQL==0.7.10
+SQLAlchemy==1.1.5
+virtualenv==15.1.0
+Werkzeug==0.11.15
+WTForms==2.1
