@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hieno sovellus</title>
+ 
+    
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/css/signup.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+	    <li role="presentation"><a href="/showDashboard">Seinä</a></li>
+	    <li role="presentation"><a href="/userHome">Oma lista</a></li>
+	    <li role="presentation"><a href="/showAddWish">Lisää tavoite</a></li>
+		<li role="presentation" class="active"><a href="/#">Inspiraatiota</a></li>	
+		
+            <li role="presentation" ><a href="/logout">Kirjaudu ulos</a></li>
+			<li role="presentation" ><a href="/contacts">Ota yhteyttä</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Bucketlist äppi</h3>
+      </div>
+ 
+      <div class="jumbotron">
+        <h1>Youtube haku</h1>
+     
+       
+		<form class="form-search" action="/youtubeSearch" method="POST">
+		<input type="text" name="inputSearch" class="input search" placeholder="hakutermi">
+		<button type="submit" class="btn">Hae</button>
+		</form>
+         
+        
+
+      </div>
+ 
+     
+ 
+      <footer class="footer">
+        <p>&copy; viidakonVIP 2017</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>

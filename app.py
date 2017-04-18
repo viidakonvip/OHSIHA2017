@@ -7,6 +7,13 @@ from flask_wtf import FlaskForm
 from wtforms import TextField, TextAreaField, SubmitField, validators, ValidationError
 import uuid
 import os.path
+import webbrowser
+
+
+#youtube importit
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+from oauth2client.tools import argparser
 
 mail = Mail()
 app = Flask(__name__)
@@ -17,16 +24,16 @@ mysql = MySQL()
 app.config['UPLOAD_FOLDER'] = 'static/Uploads'
  
 # MySQL configurations localhost
-#app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = 'miikka91'
-#app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'miikka91'
+app.config['MYSQL_DATABASE_DB'] = 'BucketList'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 # MySQL configurations heroku
-app.config['MYSQL_DATABASE_USER'] = 'o0lborjr7sivo3k3'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'khrdx0tcvv29eksg'
-app.config['MYSQL_DATABASE_DB'] = 'wkucewqoio2r1xzg'
-app.config['MYSQL_DATABASE_HOST'] = 'o3iyl77734b9n3tg.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
+#app.config['MYSQL_DATABASE_USER'] = 'o0lborjr7sivo3k3'
+#app.config['MYSQL_DATABASE_PASSWORD'] = 'khrdx0tcvv29eksg'
+#app.config['MYSQL_DATABASE_DB'] = 'wkucewqoio2r1xzg'
+#app.config['MYSQL_DATABASE_HOST'] = 'o3iyl77734b9n3tg.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
 mysql.init_app(app)
 
 #mail konffit
@@ -36,6 +43,12 @@ app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'viidakonvip@gmail.com'
 app.config["MAIL_PASSWORD"] = 'miikka91'
 mail.init_app(app)
+
+#youtube conffit
+DEVELOPER_KEY = "AIzaSyDM12caI2_QLPQ96eGt9Vwicl471cie_hM"
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
+
 
 pageLimit = 5
 
@@ -50,6 +63,7 @@ class ContactForm(FlaskForm):
 @app.route("/")
 def main():
 	return render_template("index.html")
+	
 		
 @app.route('/showSignUp')
 def showSignUp():
@@ -110,6 +124,7 @@ def showDashboard():
 		
 @app.route('/signUp',methods=['POST','GET'])
 def signUp():
+
     try:
         _name = request.form['inputName']
         _email = request.form['inputEmail']
@@ -125,10 +140,12 @@ def signUp():
             _hashed_password = generate_password_hash(_password)
             cursor.callproc('sp_createUser',(_name,_email,_hashed_password))
             data = cursor.fetchall()
+            flash("TUNNUSLUOTU")
+            
 
             if len(data) is 0:
                 conn.commit()
-                return redirect('/showSignIn')
+                return redirect("/showSignIn")
             else:
                 return json.dumps({'error':str(data[0])})
         else:
@@ -139,6 +156,8 @@ def signUp():
     finally:
         cursor.close() 
         conn.close()
+		
+        return redirect("/showSignIn")
 
 
 @app.route('/getAllWishes')
@@ -434,7 +453,60 @@ def addUpdateLike():
         cursor.close()
         conn.close()
 
-		
+
+
+@app.route("/showUtube")
+def showUtube():
+	return render_template("utube.html")
+
+@app.route('/youtubeSearch', methods=["POST"])
+def youtube_search():
+	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+	developerKey=DEVELOPER_KEY)
+
+	# Call the search.list method to retrieve results matching the specified
+	# query term.
+	search_response = youtube.search().list(
+	q=request.form['inputSearch'],
+	part="id,snippet",
+	maxResults=25
+	).execute()
+
+	videos = {}
+	#channels = []
+	#playlists = []
+
+	# Add each result to the appropriate list, and then display the lists of
+	# matching videos, channels, and playlists.
+	for search_result in search_response.get("items", []):
+		if search_result["id"]["kind"] == "youtube#video":
+			videos[search_result["snippet"]["title"]]="https://www.youtube.com/embed/{0:.50s}".format(search_result["id"]["videoId"])
+			#videos.append("%s (%s)" % (search_result["snippet"]["title"],
+			#				 search_result["id"]["videoId"]))
+		#elif search_result["id"]["kind"] == "youtube#channel":
+		#	channels.append("%s (%s)" % (search_result["snippet"]["title"],
+		#					   search_result["id"]["channelId"]))
+		#elif search_result["id"]["kind"] == "youtube#playlist":
+		#	playlists.append("%s (%s)" % (search_result["snippet"]["title"],
+		#						search_result["id"]["playlistId"]))
+
+								
+
+	print ("Videos:\n", "\n".join(videos), "\n")
+	#print ("Channels:\n", "\n".join(channels), "\n")
+	#print ("Playlists:\n", "\n".join(playlists), "\n")
+
+	
+	return render_template("/showYoutubeList.html", videos = videos)
+	try:
+		youtube_search(args)
+	except HttpError as e:
+		print ("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
+	except TypeError:
+		pass
+
+
+	
 if __name__ == "__main__":
 	app.run()
 	
