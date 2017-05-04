@@ -23,17 +23,11 @@ mysql = MySQL()
 #uplloadikansio	
 app.config['UPLOAD_FOLDER'] = 'static/Uploads'
  
-# MySQL configurations localhost
-#app.config['MYSQL_DATABASE_USER'] = 'root'
-#app.config['MYSQL_DATABASE_PASSWORD'] = 'miikka91'
-#app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-#app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-
 # MySQL configurations heroku
-app.config['MYSQL_DATABASE_USER'] = 'o0lborjr7sivo3k3'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'khrdx0tcvv29eksg'
-app.config['MYSQL_DATABASE_DB'] = 'wkucewqoio2r1xzg'
-app.config['MYSQL_DATABASE_HOST'] = 'o3iyl77734b9n3tg.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
+app.config['MYSQL_DATABASE_USER'] = 'USER'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'PASSWORD'
+app.config['MYSQL_DATABASE_DB'] = 'DATABASE'
+app.config['MYSQL_DATABASE_HOST'] = 'HOST'
 mysql.init_app(app)
 
 #mail konffit
