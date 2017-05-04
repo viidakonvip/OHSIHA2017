@@ -31,15 +31,15 @@ app.config['MYSQL_DATABASE_HOST'] = 'HOST'
 mysql.init_app(app)
 
 #mail konffit
-app.config["MAIL_SERVER"] = "smtp.gmail.com"
-app.config["MAIL_PORT"] = 465
+app.config["MAIL_SERVER"] = "SERVER"
+app.config["MAIL_PORT"] = PORT
 app.config["MAIL_USE_SSL"] = True
-app.config["MAIL_USERNAME"] = 'viidakonvip@gmail.com'
-app.config["MAIL_PASSWORD"] = 'miikka91'
+app.config["MAIL_USERNAME"] = 'email'
+app.config["MAIL_PASSWORD"] = 'password'
 mail.init_app(app)
 
 #youtube conffit
-DEVELOPER_KEY = "AIzaSyDM12caI2_QLPQ96eGt9Vwicl471cie_hM"
+DEVELOPER_KEY = "DEVELOPERKEY"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
