@@ -356,10 +356,6 @@ def updateWish():
             _isPrivate = request.form['isPrivate']
             _isDone = request.form['isDone']
 
-            
-
-
-            
 
             conn = mysql.connect()
             cursor = conn.cursor()
