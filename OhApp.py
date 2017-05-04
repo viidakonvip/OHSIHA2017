@@ -454,8 +454,6 @@ def youtube_search():
 	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
 	developerKey=DEVELOPER_KEY)
 
-	# Call the search.list method to retrieve results matching the specified
-	# query term.
 	search_response = youtube.search().list(
 	q=request.form['inputSearch'],
 	part="id,snippet",
@@ -463,28 +461,11 @@ def youtube_search():
 	).execute()
 
 	videos = {}
-	#channels = []
-	#playlists = []
 
-	# Add each result to the appropriate list, and then display the lists of
-	# matching videos, channels, and playlists.
 	for search_result in search_response.get("items", []):
 		if search_result["id"]["kind"] == "youtube#video":
 			videos[search_result["snippet"]["title"]]="https://www.youtube.com/embed/{0:.50s}".format(search_result["id"]["videoId"])
-			#videos.append("%s (%s)" % (search_result["snippet"]["title"],
-			#				 search_result["id"]["videoId"]))
-		#elif search_result["id"]["kind"] == "youtube#channel":
-		#	channels.append("%s (%s)" % (search_result["snippet"]["title"],
-		#					   search_result["id"]["channelId"]))
-		#elif search_result["id"]["kind"] == "youtube#playlist":
-		#	playlists.append("%s (%s)" % (search_result["snippet"]["title"],
-		#						search_result["id"]["playlistId"]))
 
-								
-
-	print ("Videos:\n", "\n".join(videos), "\n")
-	#print ("Channels:\n", "\n".join(channels), "\n")
-	#print ("Playlists:\n", "\n".join(playlists), "\n")
 
 	
 	return render_template("/showYoutubeList.html", videos = videos)
